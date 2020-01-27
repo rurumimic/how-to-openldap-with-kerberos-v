@@ -1,6 +1,6 @@
-# OpenLDAP 서버 이중화 구축 및 TLS 보안 통신 방법
+# OpenLDAP과 Kerberos V 연동
 
-- [OpenLDAP 서버 이중화 구축 및 TLS 보안 통신 방법](#openldap-%ec%84%9c%eb%b2%84-%ec%9d%b4%ec%a4%91%ed%99%94-%ea%b5%ac%ec%b6%95-%eb%b0%8f-tls-%eb%b3%b4%ec%95%88-%ed%86%b5%ec%8b%a0-%eb%b0%a9%eb%b2%95)
+- [OpenLDAP과 Kerberos V 연동](#openldap%ea%b3%bc-kerberos-v-%ec%97%b0%eb%8f%99)
   - [구성요소](#%ea%b5%ac%ec%84%b1%ec%9a%94%ec%86%8c)
   - [Servers](#servers)
   - [Vagrant](#vagrant)
