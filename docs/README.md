@@ -6,9 +6,10 @@
   - [Vagrant](#vagrant)
   - [공통 설정](#%ea%b3%b5%ed%86%b5-%ec%84%a4%ec%a0%95)
     - [Hosts 설정](#hosts-%ec%84%a4%ec%a0%95)
-  - [인증서](#%ec%9d%b8%ec%a6%9d%ec%84%9c)
   - [OpenLDAP Servers](#openldap-servers)
     - [LDAP 패키지 설치](#ldap-%ed%8c%a8%ed%82%a4%ec%a7%80-%ec%84%a4%ec%b9%98)
+    - [공통 설정](#%ea%b3%b5%ed%86%b5-%ec%84%a4%ec%a0%95-1)
+    - [인증서](#%ec%9d%b8%ec%a6%9d%ec%84%9c)
     - [클라이언트 설정](#%ed%81%b4%eb%9d%bc%ec%9d%b4%ec%96%b8%ed%8a%b8-%ec%84%a4%ec%a0%95)
     - [Provider 1](#provider-1)
       - [관리자 비밀번호 생성](#%ea%b4%80%eb%a6%ac%ec%9e%90-%eb%b9%84%eb%b0%80%eb%b2%88%ed%98%b8-%ec%83%9d%ec%84%b1)
@@ -18,7 +19,6 @@
       - [LDIF 작성](#ldif-%ec%9e%91%ec%84%b1-1)
       - [설정 적용](#%ec%84%a4%ec%a0%95-%ec%a0%81%ec%9a%a9-1)
     - [Delta-Syncrepl 테스트](#delta-syncrepl-%ed%85%8c%ec%8a%a4%ed%8a%b8)
-    - [slapd 로그 설정](#slapd-%eb%a1%9c%ea%b7%b8-%ec%84%a4%ec%a0%95)
   - [Kerberos Servers](#kerberos-servers)
     - [Links](#links)
     - [Kerberos 패키지 설치](#kerberos-%ed%8c%a8%ed%82%a4%ec%a7%80-%ec%84%a4%ec%b9%98)
@@ -106,18 +106,6 @@ hostnamectl set-hostname ldap1
 
 ---
 
-## 인증서
-
-**How to OpenLDAP 참고**
-
-- [RootCA 인증서](https://github.com/rurumimic/how-to-openldap/blob/master/docs/certificates.md/#rootca-%ec%9d%b8%ec%a6%9d%ec%84%9c)
-- [LDAP Provider 인증서](https://github.com/rurumimic/how-to-openldap/blob/master/docs/certificates.md/#ldap-provider-%ec%9d%b8%ec%a6%9d%ec%84%9c)
-- [Replicator 인증서](https://github.com/rurumimic/how-to-openldap/blob/master/docs/certificates.md/#replicator-%ec%9d%b8%ec%a6%9d%ec%84%9c)
-- [결과 파일](https://github.com/rurumimic/how-to-openldap/blob/master/docs/certificates.md/#%ea%b2%b0%ea%b3%bc-%ed%8c%8c%ec%9d%bc)
-- [인증서 전달](https://github.com/rurumimic/how-to-openldap/blob/master/docs/certificates.md/#%ec%9d%b8%ec%a6%9d%ec%84%9c-%ec%a0%84%eb%8b%ac)
-
----
-
 ## OpenLDAP Servers
 
 ### LDAP 패키지 설치
@@ -132,13 +120,27 @@ yum install -y openldap openldap-servers openldap-clients
 yum install -y cyrus-sasl cyrus-sasl-gssapi cyrus-sasl-ldap
 ```
 
+### 공통 설정
+
+- [기존 설정 제거](https://github.com/rurumimic/how-to-openldap/blob/master/docs/common.md/#%ea%b8%b0%ec%a1%b4-%ec%84%a4%ec%a0%95-%ec%a0%9c%ea%b1%b0)
+- [데이터베이스 디렉터리 생성](https://github.com/rurumimic/how-to-openldap/blob/master/docs/common.md/#%eb%8d%b0%ec%9d%b4%ed%84%b0%eb%b2%a0%ec%9d%b4%ec%8a%a4-%eb%94%94%eb%a0%89%ed%84%b0%eb%a6%ac-%ec%83%9d%ec%84%b1)
+- [로그 설정](https://github.com/rurumimic/how-to-openldap/blob/master/docs/common.md/#%eb%a1%9c%ea%b7%b8-%ec%84%a4%ec%a0%95)
+  - [rsyslog 설정](https://github.com/rurumimic/how-to-openldap/blob/master/docs/common.md/#rsyslog-%ec%84%a4%ec%a0%95)
+  - [logrotate 설정](https://github.com/rurumimic/how-to-openldap/blob/master/docs/common.md/#logrotate-%ec%84%a4%ec%a0%95)
+
+### 인증서
+
+- [RootCA 인증서](https://github.com/rurumimic/how-to-openldap/blob/master/docs/certificates.md/#rootca-%ec%9d%b8%ec%a6%9d%ec%84%9c)
+- [LDAP Provider 인증서](https://github.com/rurumimic/how-to-openldap/blob/master/docs/certificates.md/#ldap-provider-%ec%9d%b8%ec%a6%9d%ec%84%9c)
+- [Replicator 인증서](https://github.com/rurumimic/how-to-openldap/blob/master/docs/certificates.md/#replicator-%ec%9d%b8%ec%a6%9d%ec%84%9c)
+- [결과 파일](https://github.com/rurumimic/how-to-openldap/blob/master/docs/certificates.md/#%ea%b2%b0%ea%b3%bc-%ed%8c%8c%ec%9d%bc)
+- [인증서 전달](https://github.com/rurumimic/how-to-openldap/blob/master/docs/certificates.md/#%ec%9d%b8%ec%a6%9d%ec%84%9c-%ec%a0%84%eb%8b%ac)
+
 ### 클라이언트 설정
 
 [클라이언트 설정 방법: 3가지](https://github.com/rurumimic/how-to-openldap/blob/master/docs/client.md)
 
 ### Provider 1
-
-**How to OpenLDAP 참고**
 
 #### 관리자 비밀번호 생성
 
@@ -181,12 +183,6 @@ python -c 'import sys, crypt; print("{CRYPT}" + crypt.crypt(sys.argv[1], crypt.m
 
 - [디렉터리 정보 추가](https://github.com/rurumimic/how-to-openldap/blob/master/docs/test-syncrepl.md/#%eb%94%94%eb%a0%89%ed%84%b0%eb%a6%ac-%ec%a0%95%eb%b3%b4-%ec%b6%94%ea%b0%80)
 - [추가 정보 확인](https://github.com/rurumimic/how-to-openldap/blob/master/docs/test-syncrepl.md/#%ec%b6%94%ea%b0%80-%ec%a0%95%eb%b3%b4-%ed%99%95%ec%9d%b8)
-
-### slapd 로그 설정
-
-- [로그 설정](https://github.com/rurumimic/how-to-openldap/blob/master/docs/common.md/#%eb%a1%9c%ea%b7%b8-%ec%84%a4%ec%a0%95)
-  - [rsyslog 설정](https://github.com/rurumimic/how-to-openldap/blob/master/docs/common.md/#rsyslog-%EC%84%A4%EC%A0%95)
-  - [logrotate 설정](https://github.com/rurumimic/how-to-openldap/blob/master/docs/common.md/#logrotate-%EC%84%A4%EC%A0%95)
 
 ---
 
