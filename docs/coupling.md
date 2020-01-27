@@ -10,9 +10,9 @@
   - [keytab 파일 복사](#keytab-%ed%8c%8c%ec%9d%bc-%eb%b3%b5%ec%82%ac)
   - [keytab 등록](#keytab-%eb%93%b1%eb%a1%9d)
   - [slapd 재실행](#slapd-%ec%9e%ac%ec%8b%a4%ed%96%89)
-  - [접속 확인](#%ec%a0%91%ec%86%8d-%ed%99%95%ec%9d%b8)
-    - [매커니즘 확인](#%eb%a7%a4%ec%bb%a4%eb%8b%88%ec%a6%98-%ed%99%95%ec%9d%b8)
-    - [GSSAPI 확인](#gssapi-%ed%99%95%ec%9d%b8)
+  - [매커니즘 확인](#%eb%a7%a4%ec%bb%a4%eb%8b%88%ec%a6%98-%ed%99%95%ec%9d%b8)
+    - [LDAPI 프로토콜](#ldapi-%ed%94%84%eb%a1%9c%ed%86%a0%ec%bd%9c)
+    - [LDAP 프로토콜](#ldap-%ed%94%84%eb%a1%9c%ed%86%a0%ec%bd%9c)
 
 ---
 
@@ -75,7 +75,7 @@ ldap_sasl_interactive_bind_s: Local error (-2)
 
 ## 매커니즘 선택
 
-`/etc/sasl2/slapd.conf`을 수정한다.
+`/etc/sasl2/slapd.conf`를 생성한다.
 
 ```bash
 mech_list: GSSAPI EXTERNAL
@@ -100,6 +100,8 @@ kadmin: addprinc -randkey ldap/ldap1.example.com
 kadmin: addprinc -randkey ldap/ldap2.example.com
 kadmin: ktadd -k /etc/ldap.keytab host/ldap1.example.com
 kadmin: ktadd -k /etc/ldap.keytab host/ldap2.example.com
+kadmin: ktadd -k /etc/ldap.keytab ldap/ldap1.example.com
+kadmin: ktadd -k /etc/ldap.keytab ldap/ldap2.example.com
 kadmin: quit
 ```
 
@@ -121,7 +123,7 @@ sudo chgrp ldap /etc/openldap/ldap.keytab
 
 ## keytab 등록
 
-LDAP 1, LDAP 2의 slapd 설정에 keytab을 등록한다.
+LDAP 1, LDAP 2의 slapd 설정에 keytab을 등록한다. 파일의 마지막 줄 주석을 해제한다.
 
 `/etc/sysconfig/slapd`
 
@@ -139,14 +141,14 @@ sudo systemctl restart slapd
 
 ---
 
-## 접속 확인
+## 매커니즘 확인
 
 LDAP 1, LDAP 2 모두 매커니즘 목록을 확인한다.
 
-### 매커니즘 확인
+### LDAPI 프로토콜
 
 ```bash
-dapsearch -LLL -x -H ldapi:/// -s base -b "" supportedSASLMechanisms
+ldapsearch -LLL -x -H ldapi:/// -s base -b "" supportedSASLMechanisms
 ```
 
 ```bash
@@ -154,6 +156,8 @@ dn:
 supportedSASLMechanisms: GSSAPI
 supportedSASLMechanisms: EXTERNAL
 ```
+
+### LDAP 프로토콜
 
 ```bash
 ldapsearch -LLL -x -H ldap://ldap1.example.com -s base -b "" supportedSASLMechanisms
@@ -163,11 +167,4 @@ ldapsearch -LLL -x -H ldap://ldap2.example.com -s base -b "" supportedSASLMechan
 ```bash
 dn:
 supportedSASLMechanisms: GSSAPI
-```
-
-### GSSAPI 확인
-
-```bash
-ldapsearch -LLL -Y GSSAPI -H ldap://ldap1.example.com -s base -b "" supportedSASLMechanisms
-ldapsearch -LLL -Y GSSAPI -H ldap://ldap2.example.com -s base -b "" supportedSASLMechanisms
 ```

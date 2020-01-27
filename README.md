@@ -13,6 +13,7 @@ Kerberos V 없이 OpenLDAP만 사용하고 싶다면 **How to OpenLDAP**을 확�
   - 장점: 고가용성. Hot-Standby 혹은 Active-Active. 
   - 단점: 로드밸런싱 기능 필요.
 - Delta-syncrepl: 변경로그 기반 복제
+- TLS
 - SASL GSSAPI
 - Kerberos V
 

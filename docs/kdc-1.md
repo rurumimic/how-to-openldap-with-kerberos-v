@@ -84,6 +84,21 @@ kinit admin/admin@EXAMPLE.COM
 
 `admin/admin@EXAMPLE.COM`의 비밀번호를 입력한다.
 
+티켓을 확인한다.
+
+```bash
+klist
+```
+
+```bash
+Ticket cache: FILE:/tmp/krb5cc_1000
+Default principal: admin/admin@EXAMPLE.COM
+
+Valid starting       Expires              Service principal
+01/27/2020 10:04:14  01/27/2020 22:04:14  krbtgt/EXAMPLE.COM@EXAMPLE.COM
+        renew until 01/28/2020 10:04:14
+```
+
 ## 호스트 keytabs 생성
 
 다음 명령들을 실행하면 `/etc/krb5.keytab`라는 파일이 생성된다. 이 파일을 kdc2 서버와 공유해야 한다.

@@ -95,3 +95,13 @@ sudo crontab -e
 ```bash
 * * * * * /var/kerberos/krb5kdc/propagator.sh
 ```
+
+cron 작성을 확인한다.
+
+```bash
+sudo cat /var/spool/cron/root
+```
+
+```bash
+* * * * * /var/kerberos/krb5kdc/propagator.sh
+```

@@ -20,7 +20,6 @@
       - [설정 적용](#%ec%84%a4%ec%a0%95-%ec%a0%81%ec%9a%a9-1)
     - [Delta-Syncrepl 테스트](#delta-syncrepl-%ed%85%8c%ec%8a%a4%ed%8a%b8)
   - [Kerberos Servers](#kerberos-servers)
-    - [Links](#links)
     - [Kerberos 패키지 설치](#kerberos-%ed%8c%a8%ed%82%a4%ec%a7%80-%ec%84%a4%ec%b9%98)
     - [KDC 1](#kdc-1)
     - [KDC 2](#kdc-2)
@@ -33,6 +32,7 @@
 
 - MirrorMode
 - Delta-syncrepl
+- TLS
 - SASL GSSAPI
 - Kerberos V
 
@@ -108,6 +108,12 @@ hostnamectl set-hostname ldap1
 
 ## OpenLDAP Servers
 
+LDAP 설정 과정은 root 권한으로 설정한다.
+
+```bash
+sudo -Es
+```
+
 ### LDAP 패키지 설치
 
 LDAP 1, LDAP 2 호스트에 필요한 패키지를 설치한다.
@@ -117,7 +123,7 @@ LDAP 1, LDAP 2 호스트에 필요한 패키지를 설치한다.
 
 ```bash
 yum install -y openldap openldap-servers openldap-clients
-yum install -y cyrus-sasl cyrus-sasl-gssapi cyrus-sasl-ldap
+yum install -y cyrus-sasl cyrus-sasl-gssapi cyrus-sasl-ldap cyrus-sasl-md5 cyrus-sasl-plain
 ```
 
 ### 공통 설정
@@ -188,10 +194,6 @@ python -c 'import sys, crypt; print("{CRYPT}" + crypt.crypt(sys.argv[1], crypt.m
 
 ## Kerberos Servers
 
-### Links
-
-- [Installing KDCs](http://web.mit.edu/KERBEROS/krb5-latest/doc/admin/install_kdc.html)
-
 ### Kerberos 패키지 설치
 
 `kdc1`, `kdc2` 호스트에 필요한 패키지를 설치한다.
@@ -200,8 +202,8 @@ python -c 'import sys, crypt; print("{CRYPT}" + crypt.crypt(sys.argv[1], crypt.m
 - xinetd: kerberos 동기화 용도
 
 ```bash
-yum install -y krb5-server krb5-workstation krb5-libs libkadm5 words
-yum install -y xinetd
+sudo yum install -y krb5-server krb5-workstation krb5-libs libkadm5 words
+sudo yum install -y xinetd
 ```
 
 ### KDC 1
@@ -239,9 +241,9 @@ yum install -y xinetd
 - [keytab 파일 복사](coupling.md/#keytab-%ed%8c%8c%ec%9d%bc-%eb%b3%b5%ec%82%ac)
 - [keytab 등록](coupling.md/#keytab-%eb%93%b1%eb%a1%9d)
 - [slapd 재실행](coupling.md/#slapd-%ec%9e%ac%ec%8b%a4%ed%96%89)
-- [접속 확인](coupling.md/#%ec%a0%91%ec%86%8d-%ed%99%95%ec%9d%b8)
-  - [매커니즘 확인](coupling.md/#%eb%a7%a4%ec%bb%a4%eb%8b%88%ec%a6%98-%ed%99%95%ec%9d%b8)
-  - [GSSAPI 확인](coupling.md/#gssapi-%ed%99%95%ec%9d%b8)
+- [매커니즘 확인](coupling.md/#%eb%a7%a4%ec%bb%a4%eb%8b%88%ec%a6%98-%ed%99%95%ec%9d%b8)
+  - [LDAPI 프로토콜](coupling.md/#ldapi-%ed%94%84%eb%a1%9c%ed%86%a0%ec%bd%9c)
+  - [LDAP 프로토콜](coupling.md/#ldap-%ed%94%84%eb%a1%9c%ed%86%a0%ec%bd%9c)
 
 ---
 
@@ -255,6 +257,5 @@ yum install -y xinetd
 - [KRB 티켓 발급](client.md/#krb-%ed%8b%b0%ec%bc%93-%eb%b0%9c%ea%b8%89)
 - [신원 확인](client.md/#%ec%8b%a0%ec%9b%90-%ed%99%95%ec%9d%b8)
 - [GSSAPI 접속](client.md/#gssapi-%ec%a0%91%ec%86%8d)
-
-
-
+  - [특정 엔트리 검색](client.md/#%ed%8a%b9%ec%a0%95-%ec%97%94%ed%8a%b8%eb%a6%ac-%ea%b2%80%ec%83%89)
+  - [전체 엔트리 정보 검색](client.md/#%ec%a0%84%ec%b2%b4-%ec%97%94%ed%8a%b8%eb%a6%ac-%ec%a0%95%eb%b3%b4-%ea%b2%80%ec%83%89)
